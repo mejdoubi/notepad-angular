@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Notepad</title>
+    <base href="/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="web/notepad.ico">
+    <link rel="stylesheet" href="web/css/bootstrap.min.css">
+    <link rel="stylesheet" href="web/css/main.css">
+    <link rel="stylesheet" href="web/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <!-- Polyfill(s) for older browsers -->
+    <script src="node_modules/core-js/client/shim.min.js"></script>
+
+    <script src="node_modules/zone.js/dist/zone.js"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
+
+    <script src="node_modules/ng2-bs3-modal/bundles/ng2-bs3-modal.js"></script>
+
+    <script src="systemjs.config.js"></script>
+    <script>
+        System.import('main.js').catch(function(err){ console.error(err); });
+    </script>
+</head>
+
+<body>
+    <notepad-app>Loading the page ...</notepad-app>
+    
+    <footer class="footer bg-2 text-center">
+        <div class="container">
+            <span>ECAM - Othman Mejdoubi</span>
+        </div>
+    </footer>
+
+    <script src="web/js/jquery-3.1.1.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="web/js/bootstrap.min.js"></script>
+    <script src="web/js/main.js"></script>
+</body>
+</html>

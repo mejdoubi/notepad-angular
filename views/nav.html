@@ -1,0 +1,34 @@
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" 
+            data-toggle="collapse" data-target="#notepadNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>                        
+            </button>
+            <a class="navbar-brand" routerLink="/" routerLinkActive="active">
+                <img src="web/img/notepad.png">
+            </a>
+            <h3 class="navbar-text"><a routerLink="/" routerLinkActive="active" 
+            style="text-decoration:none;">Notepad</a></h3>
+        </div>
+        <div class="collapse navbar-collapse" id="notepadNavbar">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a routerLink="/notes" routerLinkActive="active">Notes</a></li>
+                <li><a routerLink="/categories" routerLinkActive="active">Categories</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+<div class="container-fluid bg-1">    
+    <div class="row content">
+        <div class="col-xs-2 col-md-2"></div>
+        <div class="col-xs-8 col-md-8">
+            <router-outlet></router-outlet>
+        </div>
+        <div class="col-xs-2 col-md-2"></div>
+    </div>
+</div>
+</div>

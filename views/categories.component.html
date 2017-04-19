@@ -1,0 +1,74 @@
+<div class="page-header">
+    <h1>
+        List of Categories
+        <div class="btn-group pull-right">
+            <a role="button" class="btn btn-default" (click)="openEmptyFormCategory()">New Category</a>
+        </div>
+    </h1>      
+</div>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Label</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let category of categories">
+            <td>{{ category.id }}</td>
+            <td>{{ category.label }}</td>
+            <td>
+                <a role="button" class="textprimary" 
+                (click)="openFormCategory(category)">Edit</a>
+            </td>
+            <td>
+                <a role="button" class="text-danger" 
+                (click)="openDeleteCategory(category)">Delete</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<modal formCategory #formCategory>
+    <modal-header>
+        <a role="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </a>
+        <h4 class="modal-title">New Category</h4>
+    </modal-header>
+    <modal-body>
+        <!--
+        <div class="form-group">
+            <label for="label">Label</label>
+            <input type="text" class="form-control" id="label" [(ngModel)]="modCategory.label">
+        </div>
+        -->
+    </modal-body>
+    <modal-footer>
+        <a role="button" class="btn btn-default" data-dismiss="modal" 
+        (click)="dismissFormCategory()"> Cancel</a>
+        <a role="button" class="btn btn-primary" (click)="saveFormCategory(true)">
+        <i class="fa fa-paper-plane" aria-hidden="true"></i>  Save</a>
+    </modal-footer>
+</modal>
+
+<modal deleteCategory #deleteCategory>
+    <modal-header>
+        <a role="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </a>
+        <h4 class="modal-title">Delete Category</h4>
+    </modal-header>
+    <modal-body>
+        Are you sure that you want to delete this category ?
+    </modal-body>
+    <modal-footer>
+        <a role="button" class="btn btn-default" data-dismiss="modal" 
+        (click)="dismissDeleteCategory()">Cancel</a>
+        <a role="button" class="btn btn-danger" (click)="deleteCategory()">
+        <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>  Delete</a>
+    </modal-footer>
+</modal>
