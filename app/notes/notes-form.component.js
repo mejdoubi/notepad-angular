@@ -16,21 +16,19 @@ var NotesFormComponent = (function () {
     function NotesFormComponent(fb) {
         this.fb = fb;
         this.closeModalNote = new core_1.EventEmitter();
-        this.categories = categories_component_1.CATEGORIES;
+        this.saveFormNote = new core_1.EventEmitter();
+        this.categories = CATEGORIES;
         this.title = new forms_1.FormControl("", forms_1.Validators.required, forms_1.Validators.minLength(4));
         this.content = new forms_1.FormControl("", forms_1.Validators.required);
-        this.date = new forms_1.FormControl("", forms_1.Validators.required);
-        this.category = new forms_1.FormControl("", forms_1.Validators.required);
+        this.date = new forms_1.FormControl(new Date('today'), forms_1.Validators.required);
+        this.category = new forms_1.FormControl(new categories_component_1.Category(''), forms_1.Validators.required);
         this.createForm();
     }
-    NotesFormComponent.prototype.modDate = function (modDate) {
-        return modDate.toISOString().substring(0, 10);
-    };
-    NotesFormComponent.prototype.setFormValues = function () {
+    NotesFormComponent.prototype.ngOnChanges = function () {
         this.noteForm.setValue({
             title: this.modNote.title,
             content: this.modNote.content,
-            date: this.modNoteDate,
+            date: this.modNote.date,
             category: this.modNote.category
         });
     };
@@ -45,18 +43,21 @@ var NotesFormComponent = (function () {
     NotesFormComponent.prototype.dismissFormNote = function () {
         this.closeModalNote.emit(null);
     };
+    NotesFormComponent.prototype.saveNote = function (note) {
+        this.saveFormNote.emit(note);
+    };
     __decorate([
         core_1.Input(), 
         __metadata('design:type', notes_component_1.Note)
     ], NotesFormComponent.prototype, "modNote", void 0);
     __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Date)
-    ], NotesFormComponent.prototype, "modNoteDate", void 0);
-    __decorate([
         core_1.Output(), 
         __metadata('design:type', core_1.EventEmitter)
     ], NotesFormComponent.prototype, "closeModalNote", void 0);
+    __decorate([
+        core_1.Output(), 
+        __metadata('design:type', core_1.EventEmitter)
+    ], NotesFormComponent.prototype, "saveFormNote", void 0);
     NotesFormComponent = __decorate([
         core_1.Component({
             selector: 'notes-form',

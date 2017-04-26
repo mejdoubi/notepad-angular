@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var ng2_bs3_modal_1 = require('ng2-bs3-modal/ng2-bs3-modal');
+var categories_service_1 = require('./categories-service');
 var Category = (function () {
     function Category(label) {
         this.label = label;
@@ -17,16 +18,19 @@ var Category = (function () {
     return Category;
 }());
 exports.Category = Category;
-exports.CATEGORIES = [
-    { id: 1, label: "cat1" },
-    { id: 2, label: "cat2" },
-];
 var CategoriesComponent = (function () {
-    function CategoriesComponent() {
+    function CategoriesComponent(categoriesService) {
+        this.categoriesService = categoriesService;
         this.title = 'List of categories';
-        this.categories = exports.CATEGORIES;
         this.clearModal();
     }
+    CategoriesComponent.prototype.ngOnInit = function () {
+        this.loadCategories();
+    };
+    CategoriesComponent.prototype.loadCategories = function () {
+        var _this = this;
+        this.categoriesService.getCategories().subscribe(function (data) { _this.categories = data; }, function (err) { return console.log(err); }, function () { return console.log(_this.categories); });
+    };
     CategoriesComponent.prototype.clearModal = function () {
         this.modCategory = new Category("");
     };
@@ -71,8 +75,9 @@ var CategoriesComponent = (function () {
         core_1.Component({
             selector: 'notepad-app',
             templateUrl: './app/categories/categories.component.html',
+            providers: [categories_service_1.CategoriesService]
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [categories_service_1.CategoriesService])
     ], CategoriesComponent);
     return CategoriesComponent;
 }());

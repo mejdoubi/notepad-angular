@@ -12,21 +12,21 @@ var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 require('rxjs/add/operator/map');
 require('rxjs/add/operator/catch');
-var NotesService = (function () {
-    function NotesService(http) {
+var CategoriesService = (function () {
+    function CategoriesService(http) {
         this.http = http;
         this.apiUrl = 'http://localhost:8080/symfony/notepad/web/app_dev.php/api/';
-        this.notesUrl = this.apiUrl + 'notes';
+        this.categoriesUrl = this.apiUrl + 'categories';
     }
-    NotesService.prototype.getNotes = function () {
-        return this.http.get(this.notesUrl)
+    CategoriesService.prototype.getCategories = function () {
+        return this.http.get(this.categoriesUrl)
             .map(function (res) { return res.json(); });
     };
-    NotesService = __decorate([
+    CategoriesService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http])
-    ], NotesService);
-    return NotesService;
+    ], CategoriesService);
+    return CategoriesService;
 }());
-exports.NotesService = NotesService;
-//# sourceMappingURL=notes-service.js.map
+exports.CategoriesService = CategoriesService;
+//# sourceMappingURL=categories-service.js.map

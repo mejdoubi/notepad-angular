@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { CategoriesService } from './categories-service';
 
 export class Category {
 	id: number;
@@ -9,23 +10,31 @@ export class Category {
     }
 }
 
-export const CATEGORIES: Category[] = [
-    { id: 1, label: "cat1"},
-    { id: 2, label: "cat2"},
-];
-
 @Component({
     selector: 'notepad-app',
     templateUrl: './app/categories/categories.component.html',
+    providers: [ CategoriesService ]
 })
 
 export class CategoriesComponent  { 
     title = 'List of categories';
-    categories = CATEGORIES;
     modCategory: Category;
+    public categories: Category[];
 
-    constructor(){
+    constructor(private categoriesService: CategoriesService){
         this.clearModal();
+    }
+
+    ngOnInit() { 
+        this.loadCategories();
+    }
+
+    loadCategories() {
+        this.categoriesService.getCategories().subscribe(
+            data => { this.categories = data },
+            err => console.log(err),
+            () => console.log(this.categories)
+        );
     }
 
     @ViewChild('formCategory')

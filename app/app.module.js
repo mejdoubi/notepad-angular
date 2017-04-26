@@ -13,6 +13,7 @@ var platform_browser_1 = require('@angular/platform-browser');
 var router_1 = require('@angular/router');
 var forms_1 = require('@angular/forms');
 var app_routes_1 = require('./app.routes');
+var http_1 = require('@angular/http');
 var app_component_1 = require('./app.component');
 var notes_component_1 = require('./notes/notes.component');
 var categories_component_1 = require('./categories/categories.component');
@@ -23,7 +24,7 @@ var AppModule = (function () {
     }
     AppModule = __decorate([
         core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule, router_1.RouterModule.forRoot(app_routes_1.routes), ng2_bs3_modal_1.Ng2Bs3ModalModule, forms_1.ReactiveFormsModule],
+            imports: [platform_browser_1.BrowserModule, http_1.HttpModule, router_1.RouterModule.forRoot(app_routes_1.routes), ng2_bs3_modal_1.Ng2Bs3ModalModule, forms_1.ReactiveFormsModule],
             declarations: [app_component_1.AppComponent, notes_component_1.NotesComponent, categories_component_1.CategoriesComponent, notes_form_component_1.NotesFormComponent],
             bootstrap: [app_component_1.AppComponent]
         }), 

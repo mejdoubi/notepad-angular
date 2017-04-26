@@ -20,8 +20,9 @@
 
             <div class="form-group">
                 <label for="date">Date</label>
-                <input type="date" class="form-control" formControlName="date"
-                    [(ngModel)]="modDate">
+                <input class="form-control" formControlName="date"
+                    [ngModel]="modNote.date | date:'yyyy-MM-dd'" 
+                    (ngModelChange)="modNote.date = $event">
             </div>
 
             <div class="form-group">
@@ -62,6 +63,6 @@
     <modal-footer>
         <a role="button" class="btn btn-default" data-dismiss="modal" 
         (click)="dismissFormNote()">Cancel</a>
-        <a role="button" class="btn btn-primary" (click)="saveFormNote()">
+        <a role="button" class="btn btn-primary" (click)="saveNote(note)">
         <i class="fa fa-paper-plane" aria-hidden="true"></i>  Save</a>
     </modal-footer>

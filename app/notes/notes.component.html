@@ -20,12 +20,12 @@
         <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>  Edit</a>
         <a role="button" class="btn btn-danger" (click)="openDeleteNote(note)">
         <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>  Delete</a>
-        <em class="pull-right">{{ note.date | date : "dd/MM/y" }}</em>
+        <em class="pull-right">{{ note.date.timestamp * 1000 | date }}</em>
     </div>
 </div>
 
 <modal formNote #formNote>
-    <notes-form [modNote]="modNote" [modNoteDate]="modNoteDate" (closeModalNote)="dismissFormNote($event)"></notes-form>
+    <notes-form [modNote]="modNote" (closeModalNote)="dismissFormNote($event)"></notes-form>
 </modal>
 
 <modal deleteNote #deleteNote>

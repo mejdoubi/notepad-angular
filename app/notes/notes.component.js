@@ -24,24 +24,24 @@ var Note = (function () {
     return Note;
 }());
 exports.Note = Note;
-var NOTES = [
-    { id: 1, title: "title1", content: "content1",
-        date: new Date("2017-03-21"), category: new categories_component_1.Category("cat1") },
-    { id: 2, title: "title2", content: "content2",
-        date: new Date("2017-03-27"), category: new categories_component_1.Category("cat2") },
-    { id: 3, title: "title3", content: "content3",
-        date: new Date("2017-03-29"), category: new categories_component_1.Category("cat2") },
-];
 var NotesComponent = (function () {
     function NotesComponent(notesService) {
         this.notesService = notesService;
         this.title = 'List of notes';
-        this.notes = NOTES;
+        //notes = NOTES;
         this.categories = categories_component_1.CATEGORIES;
+        this.modNote = new Note(0, "", "", Date.now(), new categories_component_1.Category(""));
         this.clearModal();
     }
+    NotesComponent.prototype.ngOnInit = function () {
+        this.loadNotes();
+    };
+    NotesComponent.prototype.loadNotes = function () {
+        var _this = this;
+        this.notesService.getNotes().subscribe(function (data) { _this.notes = data; }, function (err) { return console.log(err); }, function () { return console.log(_this.notes); });
+    };
     NotesComponent.prototype.clearModal = function () {
-        this.modNote = new Note(0, "", "", new Date("today"), new categories_component_1.Category(""));
+        this.modNote = new Note(0, "", "", Date.now(), new categories_component_1.Category(""));
     };
     NotesComponent.prototype.openEmptyFormNote = function () {
         this.clearModal();
@@ -50,7 +50,7 @@ var NotesComponent = (function () {
     NotesComponent.prototype.openFormNote = function (note) {
         this.clearModal();
         this.modNote = note;
-        this.notesFormComponent.setFormValues();
+        //this.notesFormComponent.setFormValues();
         this.modalFormNote.open();
     };
     NotesComponent.prototype.dismissFormNote = function () {
@@ -81,6 +81,7 @@ var NotesComponent = (function () {
         core_1.Component({
             selector: 'notepad-app',
             templateUrl: './app/notes/notes.component.html',
+            providers: [notes_service_1.NotesService]
         }), 
         __metadata('design:paramtypes', [notes_service_1.NotesService])
     ], NotesComponent);
