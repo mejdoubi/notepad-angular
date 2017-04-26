@@ -1,6 +1,6 @@
 "use strict";
-var notes_component_1 = require('./notes.component');
-var categories_component_1 = require('./categories.component');
+var notes_component_1 = require('./notes/notes.component');
+var categories_component_1 = require('./categories/categories.component');
 exports.routes = [
     { path: '', redirectTo: 'notes', pathMatch: 'full' },
     { path: 'notes', component: notes_component_1.NotesComponent },

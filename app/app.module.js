@@ -14,9 +14,9 @@ var router_1 = require('@angular/router');
 var forms_1 = require('@angular/forms');
 var app_routes_1 = require('./app.routes');
 var app_component_1 = require('./app.component');
-var notes_component_1 = require('./notes.component');
-var categories_component_1 = require('./categories.component');
-var notes_form_component_1 = require('./notes-form.component');
+var notes_component_1 = require('./notes/notes.component');
+var categories_component_1 = require('./categories/categories.component');
+var notes_form_component_1 = require('./notes/notes-form.component');
 var ng2_bs3_modal_1 = require('ng2-bs3-modal/ng2-bs3-modal');
 var AppModule = (function () {
     function AppModule() {

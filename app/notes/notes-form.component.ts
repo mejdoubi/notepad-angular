@@ -1,17 +1,18 @@
-import { Component, OnChanges, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter} from '@angular/core';
 import { Note } from './notes.component';
-import { Category, CATEGORIES} from './categories.component';
+import { Category, CATEGORIES} from '../categories/categories.component';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   	selector: 'notes-form',
-  	templateUrl: 'views/notes-form.component.html'
+  	templateUrl: './app/notes/notes-form.component.html'
 })
 
-export class NotesFormComponent implements OnChanges{
+export class NotesFormComponent {
 	noteForm: FormGroup;
 	@Input() modNote: Note;
 	@Input() modNoteDate: Date;
+    @Output() closeModalNote: EventEmitter<any> = new EventEmitter();
 	categories = CATEGORIES;
 
 	title = new FormControl("", Validators.required, Validators.minLength(4));
@@ -22,16 +23,16 @@ export class NotesFormComponent implements OnChanges{
   	constructor(private fb: FormBuilder) {
     	this.createForm();
   	}
-
-  	modDate(){
-        return this.modNoteDate.toISOString().substring(0, 10);
-    }
     
-  	ngOnChanges(){
+    modDate(modDate: Date){
+        return modDate.toISOString().substring(0, 10);
+    }
+
+  	setFormValues(){
   		this.noteForm.setValue({
     		title: this.modNote.title,
     		content: this.modNote.content,
-    		date: this.modDate(),
+    		date: this.modNoteDate,
     		category: this.modNote.category
     	})
   	}
@@ -44,4 +45,8 @@ export class NotesFormComponent implements OnChanges{
       		category: this.category
     	});
   	}
+
+    dismissFormNote() {
+      this.closeModalNote.emit(null);
+    }
 }

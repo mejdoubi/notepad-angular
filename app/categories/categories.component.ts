@@ -16,7 +16,7 @@ export const CATEGORIES: Category[] = [
 
 @Component({
     selector: 'notepad-app',
-    templateUrl: 'views/categories.component.html',
+    templateUrl: './app/categories/categories.component.html',
 })
 
 export class CategoriesComponent  { 

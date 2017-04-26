@@ -70,7 +70,7 @@ var CategoriesComponent = (function () {
     CategoriesComponent = __decorate([
         core_1.Component({
             selector: 'notepad-app',
-            templateUrl: 'views/categories.component.html',
+            templateUrl: './app/categories/categories.component.html',
         }), 
         __metadata('design:paramtypes', [])
     ], CategoriesComponent);

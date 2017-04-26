@@ -9,17 +9,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var AppComponent = (function () {
-    function AppComponent() {
+var NotesService = (function () {
+    function NotesService() {
     }
-    AppComponent = __decorate([
-        core_1.Component({
-            selector: 'notepad-app',
-            templateUrl: './app/nav.html',
-        }), 
+    NotesService = __decorate([
+        core_1.Injectable(), 
         __metadata('design:paramtypes', [])
-    ], AppComponent);
-    return AppComponent;
+    ], NotesService);
+    return NotesService;
 }());
-exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.component.js.map
+exports.NotesService = NotesService;
+//# sourceMappingURL=notes-service.js.map

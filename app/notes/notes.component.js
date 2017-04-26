@@ -9,7 +9,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var categories_component_1 = require('./categories.component');
+var notes_form_component_1 = require('./notes-form.component');
+var categories_component_1 = require('../categories/categories.component');
+var notes_service_1 = require('./notes-service');
 var ng2_bs3_modal_1 = require('ng2-bs3-modal/ng2-bs3-modal');
 var Note = (function () {
     function Note(id, title, content, date, category) {
@@ -31,15 +33,15 @@ var NOTES = [
         date: new Date("2017-03-29"), category: new categories_component_1.Category("cat2") },
 ];
 var NotesComponent = (function () {
-    function NotesComponent() {
+    function NotesComponent(notesService) {
+        this.notesService = notesService;
         this.title = 'List of notes';
         this.notes = NOTES;
         this.categories = categories_component_1.CATEGORIES;
         this.clearModal();
     }
     NotesComponent.prototype.clearModal = function () {
-        this.modNote = new Note(0, "", "", new Date(), new categories_component_1.Category(""));
-        this.modNoteDate = new Date();
+        this.modNote = new Note(0, "", "", new Date("today"), new categories_component_1.Category(""));
     };
     NotesComponent.prototype.openEmptyFormNote = function () {
         this.clearModal();
@@ -48,20 +50,25 @@ var NotesComponent = (function () {
     NotesComponent.prototype.openFormNote = function (note) {
         this.clearModal();
         this.modNote = note;
-        this.modNoteDate = note.date;
+        this.notesFormComponent.setFormValues();
         this.modalFormNote.open();
-        //this.notesFormComponent.setFormValues();
     };
     NotesComponent.prototype.dismissFormNote = function () {
         this.clearModal();
         this.modalFormNote.dismiss();
     };
     NotesComponent.prototype.openDeleteNote = function () {
+        this.clearModal();
         this.modalDeleteNote.open();
     };
     NotesComponent.prototype.dismissDeleteNote = function () {
+        this.clearModal();
         this.modalDeleteNote.dismiss();
     };
+    __decorate([
+        core_1.ViewChild(notes_form_component_1.NotesFormComponent), 
+        __metadata('design:type', notes_form_component_1.NotesFormComponent)
+    ], NotesComponent.prototype, "notesFormComponent", void 0);
     __decorate([
         core_1.ViewChild('formNote'), 
         __metadata('design:type', ng2_bs3_modal_1.ModalComponent)
@@ -73,9 +80,9 @@ var NotesComponent = (function () {
     NotesComponent = __decorate([
         core_1.Component({
             selector: 'notepad-app',
-            templateUrl: 'views/notes.component.html',
+            templateUrl: './app/notes/notes.component.html',
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [notes_service_1.NotesService])
     ], NotesComponent);
     return NotesComponent;
 }());

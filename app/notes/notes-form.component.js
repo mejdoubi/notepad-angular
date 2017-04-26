@@ -10,11 +10,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var notes_component_1 = require('./notes.component');
-var categories_component_1 = require('./categories.component');
+var categories_component_1 = require('../categories/categories.component');
 var forms_1 = require('@angular/forms');
 var NotesFormComponent = (function () {
     function NotesFormComponent(fb) {
         this.fb = fb;
+        this.closeModalNote = new core_1.EventEmitter();
         this.categories = categories_component_1.CATEGORIES;
         this.title = new forms_1.FormControl("", forms_1.Validators.required, forms_1.Validators.minLength(4));
         this.content = new forms_1.FormControl("", forms_1.Validators.required);
@@ -22,14 +23,14 @@ var NotesFormComponent = (function () {
         this.category = new forms_1.FormControl("", forms_1.Validators.required);
         this.createForm();
     }
-    NotesFormComponent.prototype.modDate = function () {
-        return this.modNoteDate.toISOString().substring(0, 10);
+    NotesFormComponent.prototype.modDate = function (modDate) {
+        return modDate.toISOString().substring(0, 10);
     };
-    NotesFormComponent.prototype.ngOnChanges = function () {
+    NotesFormComponent.prototype.setFormValues = function () {
         this.noteForm.setValue({
             title: this.modNote.title,
             content: this.modNote.content,
-            date: this.modDate(),
+            date: this.modNoteDate,
             category: this.modNote.category
         });
     };
@@ -41,6 +42,9 @@ var NotesFormComponent = (function () {
             category: this.category
         });
     };
+    NotesFormComponent.prototype.dismissFormNote = function () {
+        this.closeModalNote.emit(null);
+    };
     __decorate([
         core_1.Input(), 
         __metadata('design:type', notes_component_1.Note)
@@ -49,10 +53,14 @@ var NotesFormComponent = (function () {
         core_1.Input(), 
         __metadata('design:type', Date)
     ], NotesFormComponent.prototype, "modNoteDate", void 0);
+    __decorate([
+        core_1.Output(), 
+        __metadata('design:type', core_1.EventEmitter)
+    ], NotesFormComponent.prototype, "closeModalNote", void 0);
     NotesFormComponent = __decorate([
         core_1.Component({
             selector: 'notes-form',
-            templateUrl: 'views/notes-form.component.html'
+            templateUrl: './app/notes/notes-form.component.html'
         }), 
         __metadata('design:paramtypes', [forms_1.FormBuilder])
     ], NotesFormComponent);

@@ -1,6 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { NotesFormComponent } from './notes-form.component';
-import { Category, CATEGORIES} from './categories.component';
+import { Category, CATEGORIES} from '../categories/categories.component';
+import { NotesService } from './notes-service';
+
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 export class Note {
@@ -32,18 +34,18 @@ const NOTES: Note[] = [
 
 @Component({
     selector: 'notepad-app',
-    templateUrl: 'views/notes.component.html',
+    templateUrl: './app/notes/notes.component.html',
 })
 
 export class NotesComponent  {
     title = 'List of notes';
     notes = NOTES;
     categories = CATEGORIES;
-    modNote: Note;
-    modNoteDate: Date;
 
-    //@ViewChild(NotesFormComponent)
-    //private notesFormComponent: NotesFormComponent;
+    modNote: Note;
+
+    @ViewChild(NotesFormComponent)
+    private notesFormComponent: NotesFormComponent;
 
     @ViewChild('formNote')
     modalFormNote: ModalComponent;
@@ -51,13 +53,12 @@ export class NotesComponent  {
     @ViewChild('deleteNote')
     modalDeleteNote: ModalComponent;
 
-    constructor(){
+    constructor(private notesService: NotesService){
         this.clearModal();
     }
 
     clearModal() {
-        this.modNote = new Note(0, "", "", new Date(), new Category(""));
-        this.modNoteDate = new Date();
+        this.modNote = new Note(0, "", "", new Date("today"), new Category(""));
     }
 
     openEmptyFormNote(){
@@ -68,9 +69,8 @@ export class NotesComponent  {
     openFormNote(note: Note) {
         this.clearModal();
         this.modNote = note;
-        this.modNoteDate = note.date;
+        this.notesFormComponent.setFormValues();
         this.modalFormNote.open();
-        //this.notesFormComponent.setFormValues();
     }
 
     dismissFormNote() {
@@ -79,10 +79,12 @@ export class NotesComponent  {
     }
     
     openDeleteNote() {
+        this.clearModal();
         this.modalDeleteNote.open();
     }
 
     dismissDeleteNote() {
+        this.clearModal();
         this.modalDeleteNote.dismiss();
     }
 }

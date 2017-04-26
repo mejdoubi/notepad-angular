@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
     selector: 'notepad-app',
-    templateUrl: 'views/nav.html',
+    templateUrl: './app/nav.html',
 })
 
 export class AppComponent  { 
