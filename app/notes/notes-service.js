@@ -22,6 +22,31 @@ var NotesService = (function () {
         return this.http.get(this.notesUrl)
             .map(function (res) { return res.json(); });
     };
+    NotesService.prototype.newNote = function (note) {
+        var newNote = {
+            title: note.title,
+            content: note.content,
+            categoryId: note.category.id
+        };
+        console.log(newNote);
+        return this.http.post(this.notesUrl, JSON.stringify(newNote), {})
+            .map(function (res) { return res.json(); });
+    };
+    NotesService.prototype.editNote = function (note) {
+        var editedNote = {
+            id: note.id,
+            title: note.title,
+            content: note.content,
+            categoryId: note.category.id
+        };
+        console.log(editedNote);
+        return this.http.put(this.notesUrl, JSON.stringify(editedNote), {})
+            .map(function (res) { return res.json(); });
+    };
+    NotesService.prototype.deleteNote = function (id) {
+        return this.http.delete(this.notesUrl + "/" + id.toString(), {})
+            .map(function (res) { return res.json(); });
+    };
     NotesService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http])

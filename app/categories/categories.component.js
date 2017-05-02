@@ -12,7 +12,8 @@ var core_1 = require('@angular/core');
 var ng2_bs3_modal_1 = require('ng2-bs3-modal/ng2-bs3-modal');
 var categories_service_1 = require('./categories-service');
 var Category = (function () {
-    function Category(label) {
+    function Category(id, label) {
+        this.id = id;
         this.label = label;
     }
     return Category;

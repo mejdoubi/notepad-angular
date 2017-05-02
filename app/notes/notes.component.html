@@ -25,7 +25,44 @@
 </div>
 
 <modal formNote #formNote>
-    <notes-form [modNote]="modNote" (closeModalNote)="dismissFormNote($event)"></notes-form>
+    <modal-header>
+        <a role="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </a>
+        <h4 class="modal-title">New Note</h4>
+    </modal-header>
+    <modal-body>
+        <form [formGroup]="noteForm">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" class="form-control" formControlName="title" 
+                    id="title" [(ngModel)]="modNote.title">
+            </div>
+
+            <div class="form-group">
+                <label for="content">Content</label>
+                <textarea class="form-control" formControlName="content" rows="4"
+                    id="content" [(ngModel)]="modNote.content"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="category">Choose Category</label>
+                <select class="form-control" formControlName="category"
+                    [ngModel]="modNote.category" (ngModelChange)="onChangeCat($event)">
+                    <option *ngFor="let category of categories"
+                        [value]="category.id"
+                        [selected]="modNote.category.id == category.id">
+                        {{ category.label }}</option>
+                </select>
+            </div>
+        </form>
+    </modal-body>
+    <modal-footer>
+        <a role="button" class="btn btn-default" data-dismiss="modal" 
+        (click)="dismissFormNote()">Cancel</a>
+        <a role="button" class="btn btn-primary" (click)="saveNote()">
+        <i class="fa fa-paper-plane" aria-hidden="true"></i>  Save</a>
+    </modal-footer>
 </modal>
 
 <modal deleteNote #deleteNote>
@@ -41,7 +78,7 @@
     <modal-footer>
         <a role="button" class="btn btn-default" data-dismiss="modal" 
         (click)="dismissDeleteNote()">Cancel</a>
-        <a role="button" class="btn btn-danger" (click)="deleteNote()">
+        <a role="button" class="btn btn-danger" (click)="delNote()">
         <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>  Delete</a>
     </modal-footer>
 </modal>

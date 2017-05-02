@@ -1,7 +1,10 @@
 import { Component, OnInit, ViewChild, Injectable} from '@angular/core';
-import { NotesFormComponent } from './notes-form.component';
-import { Category, CATEGORIES} from '../categories/categories.component';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+
+import { Category } from '../categories/categories.component';
+
 import { NotesService } from './notes-service';
+import { CategoriesService } from '../categories/categories-service';
 
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
@@ -9,34 +12,32 @@ export class Note {
 	id: number;
     title: string;
     content: string;
-    date: number;
     category: Category;
-    constructor(id: number, title: string, content: string,
-    	date: number, category: Category) {
+    constructor(id: number, title: string, 
+        content: string, category: Category) {
         this.id = id;
     	this.title = title;
     	this.content = content;
-    	this.date = date;
     	this.category = category;
     }
 }
 
-
 @Component({
     selector: 'notepad-app',
     templateUrl: './app/notes/notes.component.html',
-    providers: [ NotesService ]
+    providers: [ NotesService, CategoriesService ]
 })
 
 export class NotesComponent  {
     title = 'List of notes';
-    //notes = NOTES;
-    categories = CATEGORIES;
-    public notes: Note[];
-    modNote: Note = new Note(0, "", "", Date.now(), new Category(""));
+    public notes: Array<Note>;
+    public categories: Array<Category>;
 
-    @ViewChild(NotesFormComponent)
-    private notesFormComponent: NotesFormComponent;
+    modNote: Note = new Note(0, "", "", new Category(0, ''));
+    noteForm: FormGroup;
+    noteTitle = new FormControl("", Validators.compose([Validators.required, Validators.minLength(4)]));
+    noteContent = new FormControl("", Validators.required);
+    noteCategory = new FormControl(new Category(0, ''), Validators.required);
 
     @ViewChild('formNote')
     modalFormNote: ModalComponent;
@@ -44,12 +45,16 @@ export class NotesComponent  {
     @ViewChild('deleteNote')
     modalDeleteNote: ModalComponent;
 
-    constructor(private notesService: NotesService){
-        this.clearModal();
+    constructor(private notesService: NotesService, 
+        private categoriesService: CategoriesService, 
+        private fb: FormBuilder){
     }
     
     ngOnInit() { 
+        this.loadCategories();
         this.loadNotes();
+        this.clearModal();
+        this.createForm();
     }
 
     loadNotes() {
@@ -60,8 +65,55 @@ export class NotesComponent  {
         );
     }
 
+    loadCategories() {
+        this.categoriesService.getCategories().subscribe(
+            data => { this.categories = data },
+            err => console.log(err),
+            () => console.log(this.categories)
+        );
+    }
+
+    newNote(note: Note) {
+        this.notesService.newNote(note).subscribe(
+            data => { console.log(data) },
+            err => console.log(err)
+        );
+    }
+
+    editNote(note: Note) {
+        this.notesService.editNote(note).subscribe(
+            data => { console.log(data) },
+            err => console.log(err)
+        );
+    }
+
+    deleteNote(id: number) {
+        this.notesService.deleteNote(id).subscribe(
+            data => { console.log(data) },
+            err => console.log(err)
+        );
+    }
+
+    saveNote(){
+        if(this.modNote.id == 0){
+            this.newNote(this.modNote);
+        } else {
+            this.editNote(this.modNote);
+        }
+        this.loadNotes();
+        this.loadCategories;
+        this.dismissFormNote();
+    }
+
+    delNote(){
+        this.deleteNote(this.modNote.id);
+        this.loadNotes();
+        this.loadCategories();
+        this.dismissDeleteNote();
+    }
+
     clearModal() {
-        this.modNote = new Note(0, "", "", Date.now(), new Category(""));
+        this.modNote = new Note(0, "", "", new Category(0, ''));
     }
 
     openEmptyFormNote(){
@@ -72,22 +124,42 @@ export class NotesComponent  {
     openFormNote(note: Note) {
         this.clearModal();
         this.modNote = note;
-        //this.notesFormComponent.setFormValues();
+        this.noteForm.setValue({
+            title: this.modNote.title,
+            content: this.modNote.content,
+            category: this.modNote.category
+        })
         this.modalFormNote.open();
+        
     }
 
     dismissFormNote() {
         this.clearModal();
         this.modalFormNote.dismiss();
     }
+
+    createForm() {
+        this.noteForm = this.fb.group({
+            title: this.noteTitle,
+            content: this.noteContent,
+            category: this.noteCategory
+        });
+    }
     
-    openDeleteNote() {
+    openDeleteNote(note: Note) {
         this.clearModal();
+        this.modNote = note;
         this.modalDeleteNote.open();
     }
 
     dismissDeleteNote() {
         this.clearModal();
         this.modalDeleteNote.dismiss();
+    }
+
+    onChangeCat(catId: number) {
+        //console.log(catId);
+        this.modNote.category.id = catId;
+        //console.log(this.modNote.category.id);
     }
 }

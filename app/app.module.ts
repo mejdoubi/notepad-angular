@@ -8,13 +8,12 @@ import { HttpModule } from '@angular/http';
 import { AppComponent }  from './app.component';
 import { NotesComponent }  from './notes/notes.component';
 import { CategoriesComponent }  from './categories/categories.component';
-import { NotesFormComponent }  from './notes/notes-form.component';
 
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 @NgModule({
 	imports:      [ BrowserModule, HttpModule, RouterModule.forRoot(routes), Ng2Bs3ModalModule, ReactiveFormsModule  ],
-    declarations: [ AppComponent, NotesComponent, CategoriesComponent, NotesFormComponent ],
+    declarations: [ AppComponent, NotesComponent, CategoriesComponent ],
     bootstrap:    [ AppComponent ]
 })
 export class AppModule { }

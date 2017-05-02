@@ -5,7 +5,8 @@ import { CategoriesService } from './categories-service';
 export class Category {
 	id: number;
 	label: string;
-    constructor(label: string) {
+    constructor(id: number, label: string) {
+        this.id = id;
     	this.label = label;
     }
 }
