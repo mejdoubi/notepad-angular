@@ -44,6 +44,7 @@ var NotesService = (function () {
             .map(function (res) { return res.json(); });
     };
     NotesService.prototype.deleteNote = function (id) {
+        console.log(this.notesUrl + "/" + id.toString());
         return this.http.delete(this.notesUrl + "/" + id.toString(), {})
             .map(function (res) { return res.json(); });
     };

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Injectable} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { Category } from '../categories/categories.component';
@@ -33,7 +33,8 @@ export class NotesComponent  {
     public notes: Array<Note>;
     public categories: Array<Category>;
 
-    modNote: Note = new Note(0, "", "", new Category(0, ''));
+    modNote: Note;
+
     noteForm: FormGroup;
     noteTitle = new FormControl("", Validators.compose([Validators.required, Validators.minLength(4)]));
     noteContent = new FormControl("", Validators.required);
@@ -157,9 +158,7 @@ export class NotesComponent  {
         this.modalDeleteNote.dismiss();
     }
 
-    onChangeCat(catId: number) {
-        //console.log(catId);
-        this.modNote.category.id = catId;
-        //console.log(this.modNote.category.id);
+    onChangeCat(cat: Category) {
+        this.modNote.category = cat;
     }
 }

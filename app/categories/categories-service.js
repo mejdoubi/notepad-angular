@@ -22,6 +22,28 @@ var CategoriesService = (function () {
         return this.http.get(this.categoriesUrl)
             .map(function (res) { return res.json(); });
     };
+    CategoriesService.prototype.newCategory = function (cat) {
+        var newCategory = {
+            label: cat.label
+        };
+        console.log(newCategory);
+        return this.http.post(this.categoriesUrl, JSON.stringify(newCategory), {})
+            .map(function (res) { return res.json(); });
+    };
+    CategoriesService.prototype.editCategory = function (cat) {
+        var editedCategory = {
+            id: cat.id,
+            label: cat.label
+        };
+        console.log(editedCategory);
+        return this.http.put(this.categoriesUrl, JSON.stringify(editedCategory), {})
+            .map(function (res) { return res.json(); });
+    };
+    CategoriesService.prototype.deleteCategory = function (id) {
+        console.log(this.categoriesUrl + "/" + id.toString());
+        return this.http.delete(this.categoriesUrl + "/" + id.toString(), {})
+            .map(function (res) { return res.json(); });
+    };
     CategoriesService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http])

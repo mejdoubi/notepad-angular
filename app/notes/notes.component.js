@@ -30,7 +30,6 @@ var NotesComponent = (function () {
         this.categoriesService = categoriesService;
         this.fb = fb;
         this.title = 'List of notes';
-        this.modNote = new Note(0, "", "", new categories_component_1.Category(0, ''));
         this.noteTitle = new forms_1.FormControl("", forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.minLength(4)]));
         this.noteContent = new forms_1.FormControl("", forms_1.Validators.required);
         this.noteCategory = new forms_1.FormControl(new categories_component_1.Category(0, ''), forms_1.Validators.required);
@@ -112,10 +111,8 @@ var NotesComponent = (function () {
         this.clearModal();
         this.modalDeleteNote.dismiss();
     };
-    NotesComponent.prototype.onChangeCat = function (catId) {
-        //console.log(catId);
-        this.modNote.category.id = catId;
-        //console.log(this.modNote.category.id);
+    NotesComponent.prototype.onChangeCat = function (cat) {
+        this.modNote.category = cat;
     };
     __decorate([
         core_1.ViewChild('formNote'), 

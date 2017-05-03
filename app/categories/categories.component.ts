@@ -1,6 +1,9 @@
-import { Component, ViewChild } from '@angular/core';
-import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+
 import { CategoriesService } from './categories-service';
+
+import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 export class Category {
 	id: number;
@@ -19,15 +22,22 @@ export class Category {
 
 export class CategoriesComponent  { 
     title = 'List of categories';
-    modCategory: Category;
     public categories: Category[];
 
-    constructor(private categoriesService: CategoriesService){
+    modCategory: Category;
+
+    catForm: FormGroup;
+    catLabel = new FormControl("", Validators.required);
+
+    constructor(private categoriesService: CategoriesService,
+        private fb: FormBuilder){
         this.clearModal();
     }
 
     ngOnInit() { 
         this.loadCategories();
+        this.clearModal();
+        this.createForm();
     }
 
     loadCategories() {
@@ -38,6 +48,43 @@ export class CategoriesComponent  {
         );
     }
 
+    newCategory(cat: Category) {
+        this.categoriesService.newCategory(cat).subscribe(
+            data => { console.log(data) },
+            err => console.log(err)
+        );
+    }
+
+    editCategory(cat: Category) {
+        this.categoriesService.editCategory(cat).subscribe(
+            data => { console.log(data) },
+            err => console.log(err)
+        );
+    }
+
+    deleteCategory(id: number) {
+        this.categoriesService.deleteCategory(id).subscribe(
+            data => { console.log(data) },
+            err => console.log(err)
+        );
+    }
+
+    saveCategory(){
+        if(this.modCategory.id == 0){
+            this.newCategory(this.modCategory);
+        } else {
+            this.editCategory(this.modCategory);
+        }
+        this.loadCategories;
+        this.dismissFormCategory();
+    }
+
+    delCategory(){
+        this.deleteCategory(this.modCategory.id);
+        this.loadCategories();
+        this.dismissDeleteCategory();
+    }
+
     @ViewChild('formCategory')
     modalFormCategory: ModalComponent;
     
@@ -45,7 +92,7 @@ export class CategoriesComponent  {
     modalDeleteCategory: ModalComponent;
 
     clearModal() {
-        this.modCategory = new Category("");
+        this.modCategory = new Category(0, "");
     }
 
     openEmptyFormCategory(){
@@ -56,7 +103,16 @@ export class CategoriesComponent  {
     openFormCategory(category: Category) {
         this.clearModal();
         this.modCategory = category;
+        this.catForm.setValue({
+            label: this.modCategory.label
+        })
         this.modalFormCategory.open();
+    }
+
+    createForm() {
+        this.catForm = this.fb.group({
+            label: this.catLabel,
+        });
     }
 
     dismissFormCategory() {
@@ -64,22 +120,13 @@ export class CategoriesComponent  {
         this.modalFormCategory.dismiss();
     }
     
-    openDeleteCategory() {
+    openDeleteCategory(cat: Category) {
+        this.clearModal();
+        this.modCategory = cat;
         this.modalDeleteCategory.open();
     }
 
     dismissDeleteCategory() {
         this.modalDeleteCategory.dismiss();
     }
-
-    saveFormCategory(bool: Boolean) {
-        this.clearModal();
-        if(bool){
-            this.categories.push(this.modCategory);
-        } else {
-            this.categories[this.modCategory.id] = this.modCategory;
-        }
-        // API requests
-    }
-
 }

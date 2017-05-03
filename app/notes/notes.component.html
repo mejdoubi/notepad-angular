@@ -29,7 +29,12 @@
         <a role="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </a>
-        <h4 class="modal-title">New Note</h4>
+        <div *ngIf="modNote.id == 0">
+            <h4 class="modal-title">New Note</h4>
+        </div>
+        <div *ngIf="modNote.id > 0">
+            <h4 class="modal-title">Edit Note</h4>
+        </div>
     </modal-header>
     <modal-body>
         <form [formGroup]="noteForm">
@@ -41,7 +46,7 @@
 
             <div class="form-group">
                 <label for="content">Content</label>
-                <textarea class="form-control" formControlName="content" rows="4"
+                <textarea class="form-control" formControlName="content" rows="5"
                     id="content" [(ngModel)]="modNote.content"></textarea>
             </div>
 
@@ -49,9 +54,8 @@
                 <label for="category">Choose Category</label>
                 <select class="form-control" formControlName="category"
                     [ngModel]="modNote.category" (ngModelChange)="onChangeCat($event)">
-                    <option *ngFor="let category of categories"
-                        [value]="category.id"
-                        [selected]="modNote.category.id == category.id">
+                    <option [ngValue]="category" *ngFor="let category of categories"
+                        [selected]="modNote.category.label == category.label">
                         {{ category.label }}</option>
                 </select>
             </div>

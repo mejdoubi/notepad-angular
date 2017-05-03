@@ -37,20 +37,26 @@
         <a role="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </a>
-        <h4 class="modal-title">New Category</h4>
+        <div *ngIf="modCategory.id == 0">
+            <h4 class="modal-title">New Category</h4>
+        </div>
+        <div *ngIf="modCategory.id > 0">
+            <h4 class="modal-title">Edit Category</h4>
+        </div>
     </modal-header>
     <modal-body>
-        <!--
-        <div class="form-group">
-            <label for="label">Label</label>
-            <input type="text" class="form-control" id="label" [(ngModel)]="modCategory.label">
-        </div>
-        -->
+        <form [formGroup]="catForm">
+            <div class="form-group">
+                <label for="label">Label</label>
+                <input type="text" class="form-control" formControlName="label" 
+                    id="title" [(ngModel)]="modCategory.label">
+            </div>
+        </form>
     </modal-body>
     <modal-footer>
         <a role="button" class="btn btn-default" data-dismiss="modal" 
         (click)="dismissFormCategory()"> Cancel</a>
-        <a role="button" class="btn btn-primary" (click)="saveFormCategory(true)">
+        <a role="button" class="btn btn-primary" (click)="saveCategory()">
         <i class="fa fa-paper-plane" aria-hidden="true"></i>  Save</a>
     </modal-footer>
 </modal>
@@ -68,7 +74,7 @@
     <modal-footer>
         <a role="button" class="btn btn-default" data-dismiss="modal" 
         (click)="dismissDeleteCategory()">Cancel</a>
-        <a role="button" class="btn btn-danger" (click)="deleteCategory()">
+        <a role="button" class="btn btn-danger" (click)="delCategory()">
         <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>  Delete</a>
     </modal-footer>
 </modal>

@@ -9,8 +9,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var ng2_bs3_modal_1 = require('ng2-bs3-modal/ng2-bs3-modal');
+var forms_1 = require('@angular/forms');
 var categories_service_1 = require('./categories-service');
+var ng2_bs3_modal_1 = require('ng2-bs3-modal/ng2-bs3-modal');
 var Category = (function () {
     function Category(id, label) {
         this.id = id;
@@ -20,20 +21,48 @@ var Category = (function () {
 }());
 exports.Category = Category;
 var CategoriesComponent = (function () {
-    function CategoriesComponent(categoriesService) {
+    function CategoriesComponent(categoriesService, fb) {
         this.categoriesService = categoriesService;
+        this.fb = fb;
         this.title = 'List of categories';
+        this.catLabel = new forms_1.FormControl("", forms_1.Validators.required);
         this.clearModal();
     }
     CategoriesComponent.prototype.ngOnInit = function () {
         this.loadCategories();
+        this.clearModal();
+        this.createForm();
     };
     CategoriesComponent.prototype.loadCategories = function () {
         var _this = this;
         this.categoriesService.getCategories().subscribe(function (data) { _this.categories = data; }, function (err) { return console.log(err); }, function () { return console.log(_this.categories); });
     };
+    CategoriesComponent.prototype.newCategory = function (cat) {
+        this.categoriesService.newCategory(cat).subscribe(function (data) { console.log(data); }, function (err) { return console.log(err); });
+    };
+    CategoriesComponent.prototype.editCategory = function (cat) {
+        this.categoriesService.editCategory(cat).subscribe(function (data) { console.log(data); }, function (err) { return console.log(err); });
+    };
+    CategoriesComponent.prototype.deleteCategory = function (id) {
+        this.categoriesService.deleteCategory(id).subscribe(function (data) { console.log(data); }, function (err) { return console.log(err); });
+    };
+    CategoriesComponent.prototype.saveCategory = function () {
+        if (this.modCategory.id == 0) {
+            this.newCategory(this.modCategory);
+        }
+        else {
+            this.editCategory(this.modCategory);
+        }
+        this.loadCategories;
+        this.dismissFormCategory();
+    };
+    CategoriesComponent.prototype.delCategory = function () {
+        this.deleteCategory(this.modCategory.id);
+        this.loadCategories();
+        this.dismissDeleteCategory();
+    };
     CategoriesComponent.prototype.clearModal = function () {
-        this.modCategory = new Category("");
+        this.modCategory = new Category(0, "");
     };
     CategoriesComponent.prototype.openEmptyFormCategory = function () {
         this.clearModal();
@@ -42,27 +71,27 @@ var CategoriesComponent = (function () {
     CategoriesComponent.prototype.openFormCategory = function (category) {
         this.clearModal();
         this.modCategory = category;
+        this.catForm.setValue({
+            label: this.modCategory.label
+        });
         this.modalFormCategory.open();
+    };
+    CategoriesComponent.prototype.createForm = function () {
+        this.catForm = this.fb.group({
+            label: this.catLabel,
+        });
     };
     CategoriesComponent.prototype.dismissFormCategory = function () {
         this.clearModal();
         this.modalFormCategory.dismiss();
     };
-    CategoriesComponent.prototype.openDeleteCategory = function () {
+    CategoriesComponent.prototype.openDeleteCategory = function (cat) {
+        this.clearModal();
+        this.modCategory = cat;
         this.modalDeleteCategory.open();
     };
     CategoriesComponent.prototype.dismissDeleteCategory = function () {
         this.modalDeleteCategory.dismiss();
-    };
-    CategoriesComponent.prototype.saveFormCategory = function (bool) {
-        this.clearModal();
-        if (bool) {
-            this.categories.push(this.modCategory);
-        }
-        else {
-            this.categories[this.modCategory.id] = this.modCategory;
-        }
-        // API requests
     };
     __decorate([
         core_1.ViewChild('formCategory'), 
@@ -78,7 +107,7 @@ var CategoriesComponent = (function () {
             templateUrl: './app/categories/categories.component.html',
             providers: [categories_service_1.CategoriesService]
         }), 
-        __metadata('design:paramtypes', [categories_service_1.CategoriesService])
+        __metadata('design:paramtypes', [categories_service_1.CategoriesService, forms_1.FormBuilder])
     ], CategoriesComponent);
     return CategoriesComponent;
 }());

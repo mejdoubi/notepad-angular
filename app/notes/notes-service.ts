@@ -42,6 +42,7 @@ export class NotesService {
 	}
 
 	deleteNote(id: number) {
+		console.log(this.notesUrl + "/" + id.toString());
 		return this.http.delete(this.notesUrl + "/" + id.toString(),
 			{})
 			.map((res:Response) => res.json());
