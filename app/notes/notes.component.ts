@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 
 import { Category } from '../categories/categories.component';
 
@@ -9,22 +10,22 @@ import { CategoriesService } from '../categories/categories-service';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 export class Note {
-	id: number;
+    id: number;
     title: string;
     content: string;
     category: Category;
     constructor(id: number, title: string, 
         content: string, category: Category) {
         this.id = id;
-    	this.title = title;
-    	this.content = content;
-    	this.category = category;
+        this.title = title;
+        this.content = content;
+        this.category = category;
     }
 }
 
 @Component({
     selector: 'notepad-app',
-    templateUrl: './app/notes/notes.component.html',
+    templateUrl: './notes.component.html',
     providers: [ NotesService, CategoriesService ]
 })
 
@@ -46,9 +47,11 @@ export class NotesComponent  {
     @ViewChild('deleteNote')
     modalDeleteNote: ModalComponent;
 
-    constructor(private notesService: NotesService, 
+    constructor(private titleService: Title,
+        private notesService: NotesService, 
         private categoriesService: CategoriesService, 
         private fb: FormBuilder){
+        titleService.setTitle(this.title);
     }
     
     ngOnInit() { 
@@ -101,15 +104,11 @@ export class NotesComponent  {
         } else {
             this.editNote(this.modNote);
         }
-        this.loadNotes();
-        this.loadCategories;
         this.dismissFormNote();
     }
 
     delNote(){
         this.deleteNote(this.modNote.id);
-        this.loadNotes();
-        this.loadCategories();
         this.dismissDeleteNote();
     }
 

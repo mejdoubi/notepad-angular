@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var common_1 = require('@angular/common');
 var platform_browser_1 = require('@angular/platform-browser');
 var router_1 = require('@angular/router');
 var forms_1 = require('@angular/forms');
@@ -25,7 +26,8 @@ var AppModule = (function () {
         core_1.NgModule({
             imports: [platform_browser_1.BrowserModule, http_1.HttpModule, router_1.RouterModule.forRoot(app_routes_1.routes), ng2_bs3_modal_1.Ng2Bs3ModalModule, forms_1.ReactiveFormsModule],
             declarations: [app_component_1.AppComponent, notes_component_1.NotesComponent, categories_component_1.CategoriesComponent],
-            bootstrap: [app_component_1.AppComponent]
+            bootstrap: [app_component_1.AppComponent],
+            providers: [{ provide: common_1.LocationStrategy, useClass: common_1.HashLocationStrategy }]
         }), 
         __metadata('design:paramtypes', [])
     ], AppModule);

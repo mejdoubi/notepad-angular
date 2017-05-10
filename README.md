@@ -3,6 +3,13 @@ notepad-angular
 
 notepad-angular is a simple web app for notes management made with angular2.
 
+Dependecies
+-----------
+
+```bash
+npm install --save ng2-bs3-modal
+```
+
 Contributing
 ------------
 

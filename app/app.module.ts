@@ -1,4 +1,5 @@
 import { NgModule }      from '@angular/core';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule }   from '@angular/forms';
@@ -14,6 +15,7 @@ import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 @NgModule({
 	imports:      [ BrowserModule, HttpModule, RouterModule.forRoot(routes), Ng2Bs3ModalModule, ReactiveFormsModule  ],
     declarations: [ AppComponent, NotesComponent, CategoriesComponent ],
-    bootstrap:    [ AppComponent ]
+    bootstrap:    [ AppComponent ],
+    providers:    [ {provide: LocationStrategy, useClass: HashLocationStrategy}]
 })
 export class AppModule { }

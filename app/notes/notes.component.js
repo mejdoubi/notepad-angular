@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var forms_1 = require('@angular/forms');
+var platform_browser_1 = require('@angular/platform-browser');
 var categories_component_1 = require('../categories/categories.component');
 var notes_service_1 = require('./notes-service');
 var categories_service_1 = require('../categories/categories-service');
@@ -25,7 +26,8 @@ var Note = (function () {
 }());
 exports.Note = Note;
 var NotesComponent = (function () {
-    function NotesComponent(notesService, categoriesService, fb) {
+    function NotesComponent(titleService, notesService, categoriesService, fb) {
+        this.titleService = titleService;
         this.notesService = notesService;
         this.categoriesService = categoriesService;
         this.fb = fb;
@@ -33,6 +35,7 @@ var NotesComponent = (function () {
         this.noteTitle = new forms_1.FormControl("", forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.minLength(4)]));
         this.noteContent = new forms_1.FormControl("", forms_1.Validators.required);
         this.noteCategory = new forms_1.FormControl(new categories_component_1.Category(0, ''), forms_1.Validators.required);
+        titleService.setTitle(this.title);
     }
     NotesComponent.prototype.ngOnInit = function () {
         this.loadCategories();
@@ -64,14 +67,10 @@ var NotesComponent = (function () {
         else {
             this.editNote(this.modNote);
         }
-        this.loadNotes();
-        this.loadCategories;
         this.dismissFormNote();
     };
     NotesComponent.prototype.delNote = function () {
         this.deleteNote(this.modNote.id);
-        this.loadNotes();
-        this.loadCategories();
         this.dismissDeleteNote();
     };
     NotesComponent.prototype.clearModal = function () {
@@ -128,7 +127,7 @@ var NotesComponent = (function () {
             templateUrl: './app/notes/notes.component.html',
             providers: [notes_service_1.NotesService, categories_service_1.CategoriesService]
         }), 
-        __metadata('design:paramtypes', [notes_service_1.NotesService, categories_service_1.CategoriesService, forms_1.FormBuilder])
+        __metadata('design:paramtypes', [platform_browser_1.Title, notes_service_1.NotesService, categories_service_1.CategoriesService, forms_1.FormBuilder])
     ], NotesComponent);
     return NotesComponent;
 }());

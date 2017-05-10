@@ -1,22 +1,23 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 
 import { CategoriesService } from './categories-service';
 
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 export class Category {
-	id: number;
-	label: string;
+    id: number;
+    label: string;
     constructor(id: number, label: string) {
         this.id = id;
-    	this.label = label;
+        this.label = label;
     }
 }
 
 @Component({
     selector: 'notepad-app',
-    templateUrl: './app/categories/categories.component.html',
+    templateUrl: './categories.component.html',
     providers: [ CategoriesService ]
 })
 
@@ -29,9 +30,11 @@ export class CategoriesComponent  {
     catForm: FormGroup;
     catLabel = new FormControl("", Validators.required);
 
-    constructor(private categoriesService: CategoriesService,
+    constructor(private titleService: Title, 
+        private categoriesService: CategoriesService,
         private fb: FormBuilder){
         this.clearModal();
+        titleService.setTitle(this.title);
     }
 
     ngOnInit() { 
@@ -75,13 +78,11 @@ export class CategoriesComponent  {
         } else {
             this.editCategory(this.modCategory);
         }
-        this.loadCategories;
         this.dismissFormCategory();
     }
 
     delCategory(){
         this.deleteCategory(this.modCategory.id);
-        this.loadCategories();
         this.dismissDeleteCategory();
     }
 

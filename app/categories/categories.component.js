@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var forms_1 = require('@angular/forms');
+var platform_browser_1 = require('@angular/platform-browser');
 var categories_service_1 = require('./categories-service');
 var ng2_bs3_modal_1 = require('ng2-bs3-modal/ng2-bs3-modal');
 var Category = (function () {
@@ -21,12 +22,14 @@ var Category = (function () {
 }());
 exports.Category = Category;
 var CategoriesComponent = (function () {
-    function CategoriesComponent(categoriesService, fb) {
+    function CategoriesComponent(titleService, categoriesService, fb) {
+        this.titleService = titleService;
         this.categoriesService = categoriesService;
         this.fb = fb;
         this.title = 'List of categories';
         this.catLabel = new forms_1.FormControl("", forms_1.Validators.required);
         this.clearModal();
+        titleService.setTitle(this.title);
     }
     CategoriesComponent.prototype.ngOnInit = function () {
         this.loadCategories();
@@ -53,12 +56,10 @@ var CategoriesComponent = (function () {
         else {
             this.editCategory(this.modCategory);
         }
-        this.loadCategories;
         this.dismissFormCategory();
     };
     CategoriesComponent.prototype.delCategory = function () {
         this.deleteCategory(this.modCategory.id);
-        this.loadCategories();
         this.dismissDeleteCategory();
     };
     CategoriesComponent.prototype.clearModal = function () {
@@ -107,7 +108,7 @@ var CategoriesComponent = (function () {
             templateUrl: './app/categories/categories.component.html',
             providers: [categories_service_1.CategoriesService]
         }), 
-        __metadata('design:paramtypes', [categories_service_1.CategoriesService, forms_1.FormBuilder])
+        __metadata('design:paramtypes', [platform_browser_1.Title, categories_service_1.CategoriesService, forms_1.FormBuilder])
     ], CategoriesComponent);
     return CategoriesComponent;
 }());
